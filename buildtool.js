@@ -4,7 +4,7 @@
  */
 
 const { readdirSync, statSync, mkdirSync, existsSync, unlinkSync, watch } = require("fs");
-const { join, dirname, basename } = require("path");
+const { dirname, basename } = require("path");
 const { stdout, argv, exit } = require("process");
 const md5 = require('md5-file');
 
@@ -53,14 +53,14 @@ let process = async (tasks, ent) =>
             let contents = readdirSync(ent);
             for (let subEnt of contents)
             {
-                await process(tasks, join(ent, subEnt));
+                await process(tasks, ent + '/' + subEnt);
             }
 
             if (wantWatch)
             {
                 watch(ent).on('change', async (_, subEnt) =>
                 {
-                    let path = join(ent, subEnt);
+                    let path = ent + '/' + subEnt;
 
                     if (path.startsWith('.git/')
                      || path.startsWith('dist/'))
@@ -105,7 +105,7 @@ let process = async (tasks, ent) =>
                             && ent.startsWith(basename(m[1]) + '.')
                             && ent.endsWith('.' + m[2]))
                             {
-                                unlinkSync(join(dirname(dest), ent));
+                                unlinkSync(dirname(dest) + '/' + ent);
                             }
                         }
                     }
@@ -141,7 +141,7 @@ module.exports =
         {
             if (pattern.startsWith('hash:'))
             {
-                pattern = pattern.substr(5);
+                pattern = pattern.substring(5);
                 tasks[pattern] = tasks[`hash:${pattern}`];
                 delete tasks[`hash:${pattern}`];
 
@@ -160,7 +160,7 @@ module.exports =
         for (let pattern in tasks)
         {
             if (pattern.indexOf('/') < 0) { srcDirs.add('.'); continue; }
-            srcDirs.add(pattern.substr(0, pattern.indexOf('/')));
+            srcDirs.add(pattern.substring(0, pattern.indexOf('/')));
         }
 
         // Process source files
