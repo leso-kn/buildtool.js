@@ -1,0 +1,24 @@
+{
+  "name": "buildtool.js",
+  "version": "0.1.0-pre",
+  "description": "A simple task runner with minimal dependencies and web development in mind.",
+  "main": "buildtool.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leso-kn/buildtool.js.git"
+  },
+  "keywords": [
+    "buildtool",
+    "task-runner",
+    "tool"
+  ],
+  "author": "Lesosoftware <info@lesosoftware.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leso-kn/buildtool.js/issues"
+  },
+  "homepage": "https://github.com/leso-kn/buildtool.js#readme",
+  "dependencies": {
+    "md5-file": "^5.0.0"
+  }
+}
