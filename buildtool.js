@@ -3,10 +3,10 @@
  *  written by Lesosoftware, 2022
  */
 
-const { readdirSync, statSync, mkdirSync, existsSync, unlinkSync, watch } = require("fs");
+const { readdirSync, statSync, mkdirSync, existsSync, unlinkSync, watch, createReadStream } = require("fs");
 const { dirname, basename } = require("path");
 const { stdout, argv, exit } = require("process");
-const md5 = require('md5-file');
+const { createHash } = require('crypto');
 
 //
 
@@ -23,8 +23,6 @@ if (argv.indexOf('-h') >= 0
     console.log(' '.repeat(prefix.length), '--help     Print this help message.');
     console.log(' '.repeat(prefix.length), ' -h');
     console.log(' '.repeat(prefix.length), '--release  Build in release mode (default is debug).');
-    console.log(' '.repeat(prefix.length), '           This will disable source maps and enable');
-    console.log(' '.repeat(prefix.length), '           code minification.');
 
     exit();
 }
@@ -38,6 +36,22 @@ function log(tag, ...args)
     { pad += ' '; }
 
     console.log('[\033[1;36m' + tag + '\033[0m]' + pad, ...args);
+}
+
+function md5sum(filename)
+{
+    // Based on https://github.com/kodie/md5-file
+    return new Promise(r =>
+    {
+        let md5 = createHash('md5');
+        let data = createReadStream(filename);
+
+        md5.once('readable', () => {
+            r (md5.read().toString('hex'))
+        });
+
+        data.pipe(md5);
+    });
 }
 
 String.prototype.replaceAll = function(from, to) { return this.split(from).join(to); }
@@ -94,7 +108,7 @@ let process = async (tasks, ent) =>
                 if (task[3] == '!hash')
                 {
                     let m = dest.match(/(.*)\.(.+)/);
-                    dest = `${m[1]}.${md5.sync(ent)}.${m[2]}`;
+                    dest = `${m[1]}.${await md5sum(ent)}.${m[2]}`;
 
                     if (existsSync(dirname(dest)) && !existsSync(dest))
                     {
