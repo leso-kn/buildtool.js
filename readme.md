@@ -21,11 +21,11 @@ A simple task runner with minimal dependencies and web development in mind.
 > node my.build.js [-w] [-h|--help] [--release]
 ```
 
-|                                  |                                                |
-| -------------------------------- | ---------------------------------------------- |
-| <code>&nbsp;-w</code>            | Watch files for changes after the first build. |
-| <code>--help</br>&nbsp;-h</code> | Print a usage guide.                           |
-| <code>--release</code>           | Build in release mode (default is debug).      |
+|                                               |                                                |
+| --------------------------------------------- | ---------------------------------------------- |
+| <code>&nbsp;-w</code>                         | Watch files for changes after the first build. |
+| <code>--help</code></br><code>&nbsp;-h</code> | Print a usage guide.                           |
+| <code>--release</code>                        | Build in release mode (default is debug).      |
 
 ## Build Configuration
 
