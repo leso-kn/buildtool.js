@@ -75,9 +75,10 @@ let process = async (tasks, ent) =>
                 watch(ent).on('change', async (_, subEnt) =>
                 {
                     let path = ent + '/' + subEnt;
+                    let pathSegments = path.split('/');
 
-                    if (path.startsWith('.git/')
-                     || path.startsWith('dist/'))
+                    if (pathSegments.indexOf('.git') >= 0
+                     || pathSegments.indexOf('dist') >= 0)
                     { return; }
 
                     stdout.write('\r\033[K');
