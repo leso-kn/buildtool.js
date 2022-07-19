@@ -1,6 +1,6 @@
 {
   "name": "buildtool.js",
-  "version": "1.0.0-r1",
+  "version": "1.0.1",
   "description": "A simple task runner with minimal dependencies and web development in mind.",
   "main": "buildtool.js",
   "repository": {
